@@ -14,10 +14,9 @@ const countries = require("i18n-iso-countries");
 
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapBoxToken = process.env.MAPBOX_TOKEN;
-const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
 //create database connection
-mongoose.connect('mongodb://localhost:27017/yelp-camp', {
+mongoose.connect(process.env.DB_URL, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true
@@ -41,7 +40,7 @@ const seedDB = async () => {
         const price = Math.floor(Math.random() * 20) + 10;
         const randomCity = cities[Math.floor(Math.random() * cities.length)];
         const camp = new Campground({
-            author: '5fe083d1f8d923231af69de9',
+            author: '5fe5cc27535f2518c58f6c21',
             title: `${sample(descriptors)} ${sample(places)}`,
             location: `${randomCity.name}, ${countries.getName(randomCity.country, "en", { select: "official" })}`,
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum, fugiat necessitatibus? Autem qui, aliquam explicabo minus non cum unde, laudantium ex blanditiis maxime delectus, dolorem velit eos voluptatibus et deserunt!',

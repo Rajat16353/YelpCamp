@@ -6,8 +6,16 @@ const { cloudinary } = require("../cloudinary");
 
 
 module.exports.index = async (req, res) => {
-    const campgrounds = await Campground.find({});
-    res.render('campgrounds/index', { campgrounds });
+    // console.log(req.query)
+    if (!Object.keys(req.query).length) {
+        const campgrounds = await Campground.find({});
+        res.render('campgrounds/index', { campgrounds });
+    } else {
+        const search = req.query.q;
+        const campgrounds = await Campground.find({ title: { $regex: search, $options: 'i' } });
+        // console.log(campgrounds)
+        res.render('campgrounds/index', { campgrounds });
+    }
 }
 
 module.exports.renderNewForm = (req, res) => {
@@ -73,4 +81,11 @@ module.exports.deleteCampground = async (req, res) => {
     await Campground.findByIdAndDelete(id);
     req.flash('success', 'Successfully deleted the campground');
     res.redirect('/campgrounds');
+}
+
+module.exports.searchCampground = async (req, res) => {
+    const search = req.query.q;
+    const campgrounds = await Campground.find({});
+    console.log(campgrounds);
+    res.render('campgrounds/index', { campgrounds });
 }
