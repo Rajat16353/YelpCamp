@@ -39,7 +39,7 @@ mongoose.connect(dbUrl, {
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error"));
 db.once("open", () => {
-    //console.log("Database connected");
+    console.log("Database connected");
 });
 
 //create express application
@@ -179,7 +179,8 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err });
 });
 
+const port = process.env.PORT || 3000;
 //listen on port 3000 for all the requests
-app.listen(3000, () => {
-    //console.log("Listening on port 3000");
+app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
 });
